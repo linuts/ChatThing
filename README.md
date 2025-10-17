@@ -2,6 +2,9 @@
 
 Lightweight, drop‑in widget that mounts a draggable chat popup onto any page. The script auto-loads required styles, injects markup, and provides responsive behaviors from phone peek sheets to desktop floating panels.
 
+## Live Demo (Real live support for Parts4heating.com)
+https://linuts.github.io/ChatThing/
+
 ## Features
 - Launcher badge and peek hint with customizable colors pulled from script `data-*` attributes.
 - Touch gestures: swipe up to open, swipe down to minimize or close, tap buttons for quick actions.
