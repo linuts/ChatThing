@@ -3,88 +3,286 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Fake Support Chat</title>
+  <title>Parts4Heating Support Chat</title>
   <style>
     :root {
-      color-scheme: light dark;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color-scheme: light;
+      font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      --color-body: #f5f7fb;
+      --color-surface: #ffffff;
+      --color-surface-muted: #eef1f8;
+      --color-border: #d6deeb;
+      --color-text: #1f2329;
+      --color-muted: #6b7585;
+      --color-primary: #479aed;
+      --color-user: #479aed;
+      --shadow-soft: 0 24px 48px rgba(15, 23, 42, 0.08);
     }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      background: #f6f7fb;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 24px;
+      background: var(--color-body);
+      color: var(--color-text);
     }
-    .chat {
-      background: #ffffff;
-      border-radius: 16px;
-      box-shadow: 0 24px 48px rgba(10, 20, 50, 0.12);
-      width: min(420px, 100%);
-      max-height: calc(100vh - 48px);
+
+    .chat-shell {
+      background: var(--color-surface);
+      border-radius: 18px;
+      border: 1px solid var(--color-border);
+      width: min(460px, 100%);
+      min-height: 620px;
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      box-shadow: var(--shadow-soft);
     }
-    .chat__header {
-      padding: 18px 24px;
-      background: linear-gradient(135deg, #143382, #2c5cc5);
-      color: #fff;
-    }
-    .chat__header h1 {
-      font-size: 1.125rem;
-      margin: 0 0 4px;
-    }
-    .chat__header p {
-      margin: 0;
-      opacity: 0.8;
-      font-size: 0.875rem;
-    }
-    .chat__log {
-      flex: 1 1 auto;
-      overflow-y: auto;
-      padding: 24px;
-      display: grid;
+
+    .chat-shell__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
       gap: 16px;
-      background: rgba(20, 51, 130, 0.04);
     }
-    .message {
+
+    .chat-shell__profile {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    .chat-shell__avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: var(--color-surface-muted);
+      border: 1px solid var(--color-border);
+      object-fit: cover;
+    }
+
+    .chat-shell__titles {
       display: grid;
       gap: 4px;
-      max-width: 85%;
-      padding: 12px 16px;
-      border-radius: 16px;
-      line-height: 1.4;
-      box-shadow: 0 6px 18px rgba(12, 24, 64, 0.12);
-      background: #fff;
     }
+
+    .chat-shell__title {
+      font-size: 1.0625rem;
+      font-weight: 600;
+      margin: 0;
+      color: var(--color-text);
+    }
+
+    .chat-shell__subtitle {
+      margin: 0;
+      font-size: 0.875rem;
+      color: var(--color-muted);
+    }
+
+    .chat-shell__actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .icon-button {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-muted);
+      cursor: pointer;
+      transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+    }
+
+    .icon-button:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    .icon-button:hover {
+      background: var(--color-surface-muted);
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    .icon-button svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .chat-shell__main {
+      flex: 1 1 auto;
+      background: var(--color-surface-muted);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-shell__scroll {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      padding: 20px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .chat-shell__time {
+      align-self: center;
+      background: rgba(111, 123, 133, 0.16);
+      color: var(--color-muted);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .chat-shell__log {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .message {
+      max-width: 85%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .message__bubble {
+      padding: 14px 18px;
+      background: var(--color-surface);
+      border-radius: 20px;
+      border-bottom-left-radius: 6px;
+      box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
+      color: var(--color-text);
+    }
+
     .message--user {
       margin-left: auto;
-      border-bottom-right-radius: 4px;
-      background: #143382;
-      color: #fff;
+      align-items: flex-end;
     }
-    .message--agent {
-      border-bottom-left-radius: 4px;
-      background: #fff;
-      color: #122048;
+
+    .message--user .message__bubble {
+      background: var(--color-user);
+      color: #ffffff;
+      border-radius: 20px;
+      border-bottom-right-radius: 6px;
+      box-shadow: none;
     }
+
+    .message__author {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      margin: 0 0 4px;
+      color: var(--color-muted);
+    }
+
+    .message--user .message__author {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .message__text {
+      margin: 0;
+      font-size: 0.975rem;
+      line-height: 1.5;
+    }
+
     .message__meta {
       font-size: 0.75rem;
-      opacity: 0.7;
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
+      color: var(--color-muted);
+      align-self: flex-start;
     }
-    .chat__form {
+
+    .message--user .message__meta {
+      color: rgba(255, 255, 255, 0.75);
+      align-self: flex-end;
+    }
+
+    .chat-shell__form {
+      padding: 18px 24px 24px;
       display: flex;
       gap: 12px;
-      padding: 16px 24px 24px;
-      border-top: 1px solid rgba(20, 51, 130, 0.12);
-      background: #fff;
+      align-items: center;
+      background: var(--color-surface);
+      border-top: 1px solid var(--color-border);
     }
+
+    .chat-shell__input {
+      flex: 1 1 auto;
+      border-radius: 24px;
+      padding: 12px 18px;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface-muted);
+      font-size: 1rem;
+      color: var(--color-text);
+    }
+
+    .chat-shell__input::placeholder {
+      color: rgba(111, 123, 133, 0.7);
+    }
+
+    .chat-shell__input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(71, 154, 237, 0.18);
+      background: var(--color-surface);
+    }
+
+    .chat-shell__submit {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      border: none;
+      background: var(--color-primary);
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 120ms ease, box-shadow 120ms ease;
+    }
+
+    .chat-shell__submit:focus-visible {
+      outline: 2px solid #ffffff;
+      outline-offset: 2px;
+    }
+
+    .chat-shell__submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 20px rgba(71, 154, 237, 0.35);
+    }
+
+    .chat-shell__submit:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    .chat-shell__submit svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
     .sr-only {
       position: absolute;
       width: 1px;
@@ -95,110 +293,139 @@
       clip: rect(0, 0, 0, 0);
       border: 0;
     }
-    .chat__input {
-      flex: 1 1 auto;
-      border-radius: 999px;
-      border: 1px solid rgba(20, 51, 130, 0.3);
-      padding: 12px 18px;
-      font-size: 1rem;
-      outline: none;
-    }
-    .chat__input:focus {
-      border-color: #2c5cc5;
-      box-shadow: 0 0 0 3px rgba(44, 92, 197, 0.25);
-    }
-    .chat__button {
-      border: none;
-      border-radius: 999px;
-      background: #2c5cc5;
-      color: #fff;
-      padding: 12px 24px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 150ms ease, box-shadow 150ms ease;
-    }
-    .chat__button:hover,
-    .chat__button:focus-visible {
-      box-shadow: 0 12px 24px rgba(44, 92, 197, 0.3);
-      transform: translateY(-1px);
-    }
-    .chat__button:active {
-      transform: translateY(0);
-      box-shadow: none;
-    }
-    @media (max-width: 480px) {
+
+    @media (max-width: 540px) {
       body {
         padding: 12px;
       }
-      .chat__header, .chat__form {
+
+      .chat-shell {
+        border-radius: 16px;
+      }
+
+      .chat-shell__header,
+      .chat-shell__form {
         padding-left: 16px;
         padding-right: 16px;
       }
-      .chat__log {
+
+      .chat-shell__scroll {
         padding: 16px;
+      }
+
+      .chat-shell__title {
+        font-size: 1rem;
       }
     }
   </style>
 </head>
 <body>
-  <section class="chat" aria-label="Fake support chat" role="log">
-    <header class="chat__header">
-      <h1>Atlas Outfitters Support</h1>
-      <p>You're chatting with Ava · Average reply time &lt; 1 min</p>
+  <section class="chat-shell" aria-label="Parts4Heating Support chat">
+    <header class="chat-shell__header">
+      <div class="chat-shell__profile">
+        <img class="chat-shell__avatar" src="https://parts4heating.a.gdms.cloud/images/logo/live_chat_1760621583.png" alt="Parts4Heating Support logo">
+        <div class="chat-shell__titles">
+          <p class="chat-shell__title">Parts4Heating Support</p>
+          <p class="chat-shell__subtitle">Online · Typically replies in under a minute</p>
+        </div>
+      </div>
+      <div class="chat-shell__actions">
+        <button type="button" class="icon-button" aria-label="Start a call">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6.77 3.05c.54-.37 1.18-.38 1.7.06l2.15 1.86c.6.52.75 1.36.32 2.05l-.86 1.37c-.28.44-.26 1 .06 1.42 1.21 1.66 2.71 3.1 4.37 4.31.41.3.95.34 1.39.09l1.39-.77c.73-.41 1.63-.22 2.17.44l1.72 2.11c.43.53.41 1.28-.02 1.8-.91 1.09-2.36 1.76-3.73 1.54-3.56-.6-7.47-3.41-10.64-7.06-2.93-3.35-4.65-7.07-4.63-10.14 0-1.5.75-2.8 1.8-3.45Z" />
+          </svg>
+        </button>
+        <button type="button" class="icon-button" aria-label="More options">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 12a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm9 0a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm3 2a2 2 0 1 0 4 0 2 2 0 0 0-4 0Z" />
+          </svg>
+        </button>
+      </div>
     </header>
-    <div id="chatLog" class="chat__log" aria-live="polite"></div>
-    <form id="chatForm" class="chat__form" autocomplete="off">
-      <label class="sr-only" for="chatMessage">Send a message</label>
-      <input id="chatMessage" class="chat__input" name="message" type="text" placeholder="Type a message…" required>
-      <button type="submit" class="chat__button">Send</button>
+    <main class="chat-shell__main">
+      <div class="chat-shell__scroll" id="chatScroll">
+        <div id="sessionTime" class="chat-shell__time" role="status"></div>
+        <div id="chatLog" class="chat-shell__log" aria-live="polite"></div>
+      </div>
+    </main>
+    <form id="chatForm" class="chat-shell__form" autocomplete="off">
+      <label class="sr-only" for="chatMessage">Enter your message</label>
+      <input id="chatMessage" class="chat-shell__input" name="message" type="text" placeholder="Enter messages" required>
+      <button type="submit" class="chat-shell__submit">
+        <span class="sr-only">Send message</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m3.41 10.79 5.06 2.86c.32.18.71.15.99-.07l6.51-5.39-5.38 6.53a1 1 0 0 0-.1 1.11l2.87 5.06c.34.6 1.2.64 1.62.06l5.03-7.06c.25-.35.24-.82-.02-1.17a.97.97 0 0 0-.8-.37l-11.9.23 8.71-6.2c.46-.33.56-.98.22-1.45-.23-.32-.62-.46-.99-.37L3.6 9.48c-.8.2-1.04 1.2-.19 1.31Z" />
+        </svg>
+      </button>
     </form>
   </section>
   <script>
     const messageTemplates = [
-      { author: 'Ava', role: 'agent', text: 'Hey there! 👋 I\'m Ava. What can I help you find today?' },
-      { author: 'Ava', role: 'agent', text: 'We just restocked the Sierra trail jacket in moss green if that\'s what you\'re after.' },
-      { author: 'Ava', role: 'agent', text: 'Orders over $75 ship free, and you can return anything within 30 days.' },
-      { author: 'Ava', role: 'agent', text: 'Need a size guide? I can send a link or recommend based on your past orders.' },
-      { author: 'Ava', role: 'agent', text: 'I\'m here if you have more questions—just drop another message!' }
+      { author: 'Parts4Heating Support', role: 'agent', text: 'If you need anything else for that unit, I can bundle the parts to save on shipping.' },
+      { author: 'Parts4Heating Support', role: 'agent', text: 'Most Raypak components ship the same day if we confirm the order before 3 PM ET.' },
+      { author: 'Parts4Heating Support', role: 'agent', text: 'Would you like me to email installation tips or troubleshooting guides along with your order?' },
+      { author: 'Parts4Heating Support', role: 'agent', text: 'Feel free to send photos of the heater label if you want me to double-check compatibility.' },
+      { author: 'Parts4Heating Support', role: 'agent', text: 'Thanks for reaching out to Parts4Heating—just let me know when you are ready to proceed.' }
     ];
 
     const scriptedConversation = [
-      { role: 'agent', author: 'Ava', text: 'Hi Casey! Welcome back to Atlas Outfitters.' },
-      { role: 'user', author: 'You', text: 'Hey Ava! Do you still have the trail jacket in moss?' },
-      { role: 'agent', author: 'Ava', text: 'Absolutely! We just received a fresh shipment this morning.' },
-      { role: 'user', author: 'You', text: 'Perfect. What about sizing—does it run large?' },
-      { role: 'agent', author: 'Ava', text: 'It has a relaxed fit. Most customers size down if they\'re between sizes.' },
-      { role: 'user', author: 'You', text: 'Thanks! I\'ll grab a medium then.' },
-      { role: 'agent', author: 'Ava', text: 'Great choice! Want me to add it to your cart?' }
+      { role: 'agent', author: 'Parts4Heating Support', text: 'Welcome! Please enter the requested information so that we can better serve you.' },
+      { role: 'user', author: 'You', text: 'Hi there, I need a replacement igniter for a Raypak 266A heater.' },
+      { role: 'agent', author: 'Parts4Heating Support', text: 'I can help with that. Do you know the exact model number or serial from the rating plate?' },
+      { role: 'user', author: 'You', text: 'Yes, the serial number ends with 3419.' },
+      { role: 'agent', author: 'Parts4Heating Support', text: 'Perfect— that points to the IID kit R185106. We have it in stock and it ships today.' },
+      { role: 'user', author: 'You', text: 'Great, what does shipping usually cost to New Jersey?' },
+      { role: 'agent', author: 'Parts4Heating Support', text: 'Ground service typically runs about $12, and orders over $150 qualify for free freight.' }
     ];
 
     const chatLog = document.getElementById('chatLog');
+    const chatScroll = document.getElementById('chatScroll');
     const chatForm = document.getElementById('chatForm');
     const chatMessage = document.getElementById('chatMessage');
+    const sessionTime = document.getElementById('sessionTime');
 
-    function createMessage({ author, text, role }) {
+    const startTimestamp = new Date();
+    sessionTime.textContent = startTimestamp.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    sessionTime.setAttribute('aria-label', `Conversation started at ${sessionTime.textContent}`);
+
+    function formatTime(date) {
+      return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    }
+
+    function createMessage(data, timestamp) {
       const wrapper = document.createElement('article');
-      wrapper.className = `message message--${role}`;
+      wrapper.className = `message message--${data.role}`;
+      wrapper.setAttribute('data-author', data.author);
+      wrapper.setAttribute('data-role', data.role);
 
-      const meta = document.createElement('header');
+      const bubble = document.createElement('div');
+      bubble.className = 'message__bubble';
+
+      const authorLine = document.createElement('p');
+      authorLine.className = 'message__author';
+      authorLine.textContent = data.author;
+      bubble.appendChild(authorLine);
+
+      const textNode = document.createElement('p');
+      textNode.className = 'message__text';
+      textNode.textContent = data.text;
+      bubble.appendChild(textNode);
+
+      const meta = document.createElement('footer');
       meta.className = 'message__meta';
-      const authorSpan = document.createElement('span');
-      authorSpan.textContent = author;
-      const timeSpan = document.createElement('span');
-      timeSpan.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      meta.append(authorSpan, timeSpan);
+      meta.textContent = formatTime(timestamp);
 
-      const body = document.createElement('p');
-      body.textContent = text;
-
-      wrapper.append(meta, body);
+      wrapper.append(bubble, meta);
       return wrapper;
     }
 
     function appendMessage(data) {
-      const messageEl = createMessage(data);
+      const timestamp = data.timestamp ? new Date(data.timestamp) : new Date();
+      const messageEl = createMessage(data, timestamp);
       chatLog.appendChild(messageEl);
-      chatLog.scrollTo({ top: chatLog.scrollHeight, behavior: 'smooth' });
+      requestAnimationFrame(() => {
+        chatScroll.scrollTo({ top: chatScroll.scrollHeight, behavior: 'smooth' });
+      });
     }
 
     function preloadConversation() {
@@ -215,10 +442,13 @@
     chatForm.addEventListener('submit', (event) => {
       event.preventDefault();
       const text = chatMessage.value.trim();
-      if (!text) return;
+      if (!text) {
+        return;
+      }
       appendMessage({ role: 'user', author: 'You', text });
       chatMessage.value = '';
       agentReply();
+      chatMessage.focus();
     });
 
     preloadConversation();
