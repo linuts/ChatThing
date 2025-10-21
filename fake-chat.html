@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fake Support Chat</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    body {
+      margin: 0;
+      background: #f6f7fb;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .chat {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 24px 48px rgba(10, 20, 50, 0.12);
+      width: min(420px, 100%);
+      max-height: calc(100vh - 48px);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .chat__header {
+      padding: 18px 24px;
+      background: linear-gradient(135deg, #143382, #2c5cc5);
+      color: #fff;
+    }
+    .chat__header h1 {
+      font-size: 1.125rem;
+      margin: 0 0 4px;
+    }
+    .chat__header p {
+      margin: 0;
+      opacity: 0.8;
+      font-size: 0.875rem;
+    }
+    .chat__log {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      padding: 24px;
+      display: grid;
+      gap: 16px;
+      background: rgba(20, 51, 130, 0.04);
+    }
+    .message {
+      display: grid;
+      gap: 4px;
+      max-width: 85%;
+      padding: 12px 16px;
+      border-radius: 16px;
+      line-height: 1.4;
+      box-shadow: 0 6px 18px rgba(12, 24, 64, 0.12);
+      background: #fff;
+    }
+    .message--user {
+      margin-left: auto;
+      border-bottom-right-radius: 4px;
+      background: #143382;
+      color: #fff;
+    }
+    .message--agent {
+      border-bottom-left-radius: 4px;
+      background: #fff;
+      color: #122048;
+    }
+    .message__meta {
+      font-size: 0.75rem;
+      opacity: 0.7;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .chat__form {
+      display: flex;
+      gap: 12px;
+      padding: 16px 24px 24px;
+      border-top: 1px solid rgba(20, 51, 130, 0.12);
+      background: #fff;
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+    .chat__input {
+      flex: 1 1 auto;
+      border-radius: 999px;
+      border: 1px solid rgba(20, 51, 130, 0.3);
+      padding: 12px 18px;
+      font-size: 1rem;
+      outline: none;
+    }
+    .chat__input:focus {
+      border-color: #2c5cc5;
+      box-shadow: 0 0 0 3px rgba(44, 92, 197, 0.25);
+    }
+    .chat__button {
+      border: none;
+      border-radius: 999px;
+      background: #2c5cc5;
+      color: #fff;
+      padding: 12px 24px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+    .chat__button:hover,
+    .chat__button:focus-visible {
+      box-shadow: 0 12px 24px rgba(44, 92, 197, 0.3);
+      transform: translateY(-1px);
+    }
+    .chat__button:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+    @media (max-width: 480px) {
+      body {
+        padding: 12px;
+      }
+      .chat__header, .chat__form {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+      .chat__log {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="chat" aria-label="Fake support chat" role="log">
+    <header class="chat__header">
+      <h1>Atlas Outfitters Support</h1>
+      <p>You're chatting with Ava · Average reply time &lt; 1 min</p>
+    </header>
+    <div id="chatLog" class="chat__log" aria-live="polite"></div>
+    <form id="chatForm" class="chat__form" autocomplete="off">
+      <label class="sr-only" for="chatMessage">Send a message</label>
+      <input id="chatMessage" class="chat__input" name="message" type="text" placeholder="Type a message…" required>
+      <button type="submit" class="chat__button">Send</button>
+    </form>
+  </section>
+  <script>
+    const messageTemplates = [
+      { author: 'Ava', role: 'agent', text: 'Hey there! 👋 I\'m Ava. What can I help you find today?' },
+      { author: 'Ava', role: 'agent', text: 'We just restocked the Sierra trail jacket in moss green if that\'s what you\'re after.' },
+      { author: 'Ava', role: 'agent', text: 'Orders over $75 ship free, and you can return anything within 30 days.' },
+      { author: 'Ava', role: 'agent', text: 'Need a size guide? I can send a link or recommend based on your past orders.' },
+      { author: 'Ava', role: 'agent', text: 'I\'m here if you have more questions—just drop another message!' }
+    ];
+
+    const scriptedConversation = [
+      { role: 'agent', author: 'Ava', text: 'Hi Casey! Welcome back to Atlas Outfitters.' },
+      { role: 'user', author: 'You', text: 'Hey Ava! Do you still have the trail jacket in moss?' },
+      { role: 'agent', author: 'Ava', text: 'Absolutely! We just received a fresh shipment this morning.' },
+      { role: 'user', author: 'You', text: 'Perfect. What about sizing—does it run large?' },
+      { role: 'agent', author: 'Ava', text: 'It has a relaxed fit. Most customers size down if they\'re between sizes.' },
+      { role: 'user', author: 'You', text: 'Thanks! I\'ll grab a medium then.' },
+      { role: 'agent', author: 'Ava', text: 'Great choice! Want me to add it to your cart?' }
+    ];
+
+    const chatLog = document.getElementById('chatLog');
+    const chatForm = document.getElementById('chatForm');
+    const chatMessage = document.getElementById('chatMessage');
+
+    function createMessage({ author, text, role }) {
+      const wrapper = document.createElement('article');
+      wrapper.className = `message message--${role}`;
+
+      const meta = document.createElement('header');
+      meta.className = 'message__meta';
+      const authorSpan = document.createElement('span');
+      authorSpan.textContent = author;
+      const timeSpan = document.createElement('span');
+      timeSpan.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      meta.append(authorSpan, timeSpan);
+
+      const body = document.createElement('p');
+      body.textContent = text;
+
+      wrapper.append(meta, body);
+      return wrapper;
+    }
+
+    function appendMessage(data) {
+      const messageEl = createMessage(data);
+      chatLog.appendChild(messageEl);
+      chatLog.scrollTo({ top: chatLog.scrollHeight, behavior: 'smooth' });
+    }
+
+    function preloadConversation() {
+      scriptedConversation.forEach((entry, index) => {
+        setTimeout(() => appendMessage(entry), 400 * index);
+      });
+    }
+
+    function agentReply() {
+      const template = messageTemplates[Math.floor(Math.random() * messageTemplates.length)];
+      setTimeout(() => appendMessage({ ...template }), 650);
+    }
+
+    chatForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const text = chatMessage.value.trim();
+      if (!text) return;
+      appendMessage({ role: 'user', author: 'You', text });
+      chatMessage.value = '';
+      agentReply();
+    });
+
+    preloadConversation();
+  </script>
+</body>
+</html>
