@@ -3,7 +3,7 @@
   const baseHref = scriptEl && scriptEl.src
     ? scriptEl.src.substring(0, scriptEl.src.lastIndexOf('/') + 1)
     : '';
-  const CSS_ID = 'p4h-wave-chat-styles';
+  const CSS_ID = 'its-wave-chat-styles';
   const CSS_FILE = 'Chat.css';
 
   function readScriptAttr(name){
@@ -126,12 +126,12 @@
     container.setAttribute('role', 'alert');
 
     const title = document.createElement('p');
-    title.className = 'p4h-chat-fallback__title';
+    title.className = 'its-chat-fallback__title';
     title.textContent = 'Sorry, we can’t open chat right now.';
     container.appendChild(title);
 
     const body = document.createElement('p');
-    body.className = 'p4h-chat-fallback__body';
+    body.className = 'its-chat-fallback__body';
     if(CONTACT_PHONE || CONTACT_EMAIL){
       body.textContent = 'You can still reach our team using one of the options below:';
     } else {
@@ -141,14 +141,14 @@
 
     if(CONTACT_PHONE || CONTACT_EMAIL){
       const list = document.createElement('ul');
-      list.className = 'p4h-chat-fallback__list';
+      list.className = 'its-chat-fallback__list';
 
       if(CONTACT_PHONE){
         const item = document.createElement('li');
-        item.className = 'p4h-chat-fallback__item';
+        item.className = 'its-chat-fallback__item';
         item.textContent = 'Call us at ';
         const link = document.createElement('a');
-        link.className = 'p4h-chat-fallback__link';
+        link.className = 'its-chat-fallback__link';
         link.href = buildTelHref(CONTACT_PHONE);
         link.textContent = CONTACT_PHONE;
         item.appendChild(link);
@@ -157,10 +157,10 @@
 
       if(CONTACT_EMAIL){
         const item = document.createElement('li');
-        item.className = 'p4h-chat-fallback__item';
+        item.className = 'its-chat-fallback__item';
         item.textContent = 'Email us at ';
         const link = document.createElement('a');
-        link.className = 'p4h-chat-fallback__link';
+        link.className = 'its-chat-fallback__link';
         link.href = `mailto:${CONTACT_EMAIL}`;
         link.textContent = CONTACT_EMAIL;
         item.appendChild(link);
@@ -193,40 +193,40 @@
   function applyThemeColors(){
     const target = document.documentElement;
     if(!target) return;
-    target.style.setProperty('--p4h-primary-color', PRIMARY_COLOR);
-    target.style.setProperty('--p4h-primary-color-rgb', PRIMARY_COLOR_RGB);
-    target.style.setProperty('--p4h-secondary-color', SECONDARY_COLOR);
-    target.style.setProperty('--p4h-secondary-color-rgb', SECONDARY_COLOR_RGB);
-    target.style.setProperty('--p4h-primary-contrast-color', PRIMARY_CONTRAST_COLOR);
-    target.style.setProperty('--p4h-secondary-contrast-color', SECONDARY_CONTRAST_COLOR);
-    target.style.setProperty('--p4h-text-primary-color', TEXT_PRIMARY_COLOR);
-    target.style.setProperty('--p4h-text-secondary-color', TEXT_SECONDARY_COLOR);
+    target.style.setProperty('--its-primary-color', PRIMARY_COLOR);
+    target.style.setProperty('--its-primary-color-rgb', PRIMARY_COLOR_RGB);
+    target.style.setProperty('--its-secondary-color', SECONDARY_COLOR);
+    target.style.setProperty('--its-secondary-color-rgb', SECONDARY_COLOR_RGB);
+    target.style.setProperty('--its-primary-contrast-color', PRIMARY_CONTRAST_COLOR);
+    target.style.setProperty('--its-secondary-contrast-color', SECONDARY_CONTRAST_COLOR);
+    target.style.setProperty('--its-text-primary-color', TEXT_PRIMARY_COLOR);
+    target.style.setProperty('--its-text-secondary-color', TEXT_SECONDARY_COLOR);
   }
 
   const MARKUP = `
-<div id="p4hChatLauncher" class="p4h-chat-launcher" aria-label="Open live chat" title="Chat with us">
+<div id="itsChatLauncher" class="its-chat-launcher" aria-label="Open live chat" title="Chat with us">
   💬
-  <span id="p4hChatBadge" class="p4h-chat-badge" aria-hidden="true"></span>
+  <span id="itsChatBadge" class="its-chat-badge" aria-hidden="true"></span>
 </div>
 
-<div id="p4hChatPanel" class="p4h-chat-panel" role="dialog" aria-modal="true" aria-label="Live chat">
-  <div class="p4h-drag-handle" aria-hidden="true"></div>
-  <div class="p4h-peek-hint" aria-hidden="true">Swipe up to show chat</div>
-  <div class="p4h-chat-controls" role="toolbar" aria-label="Chat controls">
-    <button id="p4hChatMinimize" class="p4h-chat-btn" title="Minimize" aria-label="Minimize">–</button>
-    <button id="p4hChatClose" class="p4h-chat-btn" title="Close" aria-label="Close">×</button>
+<div id="itsChatPanel" class="its-chat-panel" role="dialog" aria-modal="true" aria-label="Live chat">
+  <div class="its-drag-handle" aria-hidden="true"></div>
+  <div class="its-peek-hint" aria-hidden="true">Swipe up to show chat</div>
+  <div class="its-chat-controls" role="toolbar" aria-label="Chat controls">
+    <button id="itsChatMinimize" class="its-chat-btn" title="Minimize" aria-label="Minimize">–</button>
+    <button id="itsChatClose" class="its-chat-btn" title="Close" aria-label="Close">×</button>
   </div>
-  <div class="p4h-chat-body">
+  <div class="its-chat-body">
     <iframe
-      id="p4hChatFrame"
-      class="p4h-chat-iframe"
+      id="itsChatFrame"
+      class="its-chat-iframe"
       title="Live chat"
       loading="lazy"
       scrolling="no"
       referrerpolicy="no-referrer-when-downgrade"
       allow="clipboard-read; clipboard-write">
     </iframe>
-    <div id="p4hChatFallback" class="p4h-chat-fallback" hidden></div>
+    <div id="itsChatFallback" class="its-chat-fallback" hidden></div>
   </div>
 </div>
 `;
@@ -250,7 +250,7 @@
   }
 
   function injectMarkup(){
-    if(document.getElementById('p4hChatLauncher')) return;
+    if(document.getElementById('itsChatLauncher')) return;
     const template = document.createElement('template');
     template.innerHTML = MARKUP.trim();
     document.body.appendChild(template.content.cloneNode(true));
@@ -262,20 +262,20 @@
     ensureStyles();
     injectMarkup();
 
-    const $launcher = document.getElementById('p4hChatLauncher');
-    const $panel    = document.getElementById('p4hChatPanel');
-    const $frame    = document.getElementById('p4hChatFrame');
+    const $launcher = document.getElementById('itsChatLauncher');
+    const $panel    = document.getElementById('itsChatPanel');
+    const $frame    = document.getElementById('itsChatFrame');
     if(!$launcher || !$panel || !$frame) return;
 
     initialized = true;
 
-    const $peekHint = $panel.querySelector('.p4h-peek-hint');
-    const $close    = document.getElementById('p4hChatClose');
-    const $minimize = document.getElementById('p4hChatMinimize');
-    const $handle   = $panel.querySelector('.p4h-drag-handle');
-    const $controls = $panel.querySelector('.p4h-chat-controls');
-    const $fallback = document.getElementById('p4hChatFallback');
-    const $badge    = document.getElementById('p4hChatBadge');
+    const $peekHint = $panel.querySelector('.its-peek-hint');
+    const $close    = document.getElementById('itsChatClose');
+    const $minimize = document.getElementById('itsChatMinimize');
+    const $handle   = $panel.querySelector('.its-drag-handle');
+    const $controls = $panel.querySelector('.its-chat-controls');
+    const $fallback = document.getElementById('itsChatFallback');
+    const $badge    = document.getElementById('itsChatBadge');
 
     let chatDisabled = !hasChatUrl;
     let loaded = false;
@@ -420,7 +420,7 @@
       } else {
         showFallback($fallback, $frame);
       }
-      $panel.style.removeProperty('--p4h-shift');
+      $panel.style.removeProperty('--its-shift');
       $panel.style.transform = '';
       $panel.style.opacity = '';
       updateMinimizeButton();
@@ -456,7 +456,7 @@
       }
       $frame.setAttribute('aria-hidden', 'true');
       $panel.style.transform = '';
-      $panel.style.removeProperty('--p4h-shift');
+      $panel.style.removeProperty('--its-shift');
       if($panel.contains(document.activeElement)){
         try { document.activeElement.blur(); } catch(e){}
       }
@@ -507,7 +507,7 @@
         $panel.style.display = 'none';
         $panel.style.opacity = '';
         $panel.style.transform = '';
-        $panel.style.removeProperty('--p4h-shift');
+        $panel.style.removeProperty('--its-shift');
         updateMinimizeButton();
         updatePeekHint(false);
         showLauncher();
@@ -577,10 +577,10 @@
     const handleTouchStart = (e)=>{
       if(!isPhone()) return;
       if(swiping) return;
-      if(e.target.closest('.p4h-chat-controls')) return;
+      if(e.target.closest('.its-chat-controls')) return;
       const isPeekState = $panel.getAttribute('data-peek') === 'true';
       const startedOnHandle = $handle && $handle.contains(e.target);
-      if(isPeekState && e.target.closest('.p4h-chat-controls')) return;
+      if(isPeekState && e.target.closest('.its-chat-controls')) return;
       if(!isPeekState && !startedOnHandle) return;
       swiping = true;
       deltaY = 0;
@@ -589,7 +589,7 @@
       $panel.style.transition = 'none';
       $panel.style.willChange = 'transform';
       $panel.setAttribute('data-swiping', 'true');
-      $panel.style.removeProperty('--p4h-shift');
+      $panel.style.removeProperty('--its-shift');
     };
     const handleTouchMove = (e)=>{
       if(!swiping) return;
@@ -601,14 +601,14 @@
         ? Math.max(-limit, Math.min(0, deltaY))
         : Math.max(0, Math.min(deltaY, limit));
       $panel.setAttribute('data-swiping', 'true');
-      $panel.style.setProperty('--p4h-shift', `${translate}px`);
+      $panel.style.setProperty('--its-shift', `${translate}px`);
     };
     const finishSwipe = ()=>{
       if(!swiping) return;
       swiping = false;
       $panel.style.transition = '';
       $panel.style.removeProperty('willChange');
-      $panel.style.removeProperty('--p4h-shift');
+      $panel.style.removeProperty('--its-shift');
       $panel.removeAttribute('data-swiping');
       const isTap = Math.abs(deltaY) <= 10;
       const shouldPeek = !peekAtStart && deltaY > PEEK_THRESHOLD;

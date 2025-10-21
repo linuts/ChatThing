@@ -10,6 +10,10 @@
       height: 100%;
     }
 
+    body {
+      min-height: 100vh;
+    }
+
     :root {
       color-scheme: light;
       font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -41,7 +45,8 @@
       border-radius: 0;
       border: 1px solid var(--color-border);
       width: 100%;
-      min-height: 100%;
+      min-height: 100vh;
+      height: 100%;
       flex: 1 1 auto;
       display: flex;
       flex-direction: column;
@@ -309,21 +314,21 @@
   </section>
   <script>
     const messageTemplates = [
-      { author: 'Infinity Technology Support', role: 'agent', text: 'If you need anything else for that unit, I can bundle the parts to save on shipping.' },
-      { author: 'Infinity Technology Support', role: 'agent', text: 'Most Raypak components ship the same day if we confirm the order before 3 PM ET.' },
-      { author: 'Infinity Technology Support', role: 'agent', text: 'Would you like me to email installation tips or troubleshooting guides along with your order?' },
-      { author: 'Infinity Technology Support', role: 'agent', text: 'Feel free to send photos of the heater label if you want me to double-check compatibility.' },
-      { author: 'Infinity Technology Support', role: 'agent', text: 'Thanks for reaching out to Infinity Technology Support—just let me know when you are ready to proceed.' }
+      { author: 'Infinity Technology Support', role: 'agent', text: 'I can remote in to run diagnostics if you can keep the device powered on for a few minutes.' },
+      { author: 'Infinity Technology Support', role: 'agent', text: 'A reboot usually takes care of that memory leak—have you tried power cycling the workstation yet?' },
+      { author: 'Infinity Technology Support', role: 'agent', text: 'If the VPN prompts again, the passphrase is the same as your email—let me know if you need it reset.' },
+      { author: 'Infinity Technology Support', role: 'agent', text: 'I just pushed a patch to your laptop. Please install it when you see the prompt so we can close the ticket.' },
+      { author: 'Infinity Technology Support', role: 'agent', text: 'Thanks for contacting Infinity Technology Support. I’ll stay on the line while you try the steps.' }
     ];
 
     const scriptedConversation = [
-      { role: 'agent', author: 'Infinity Technology Support', text: 'Welcome! Please enter the requested information so that we can better serve you.' },
-      { role: 'user', author: 'You', text: 'Hi there, I need a replacement igniter for a Raypak 266A heater.' },
-      { role: 'agent', author: 'Infinity Technology Support', text: 'I can help with that. Do you know the exact model number or serial from the rating plate?' },
-      { role: 'user', author: 'You', text: 'Yes, the serial number ends with 3419.' },
-      { role: 'agent', author: 'Infinity Technology Support', text: 'Perfect— that points to the IID kit R185106. We have it in stock and it ships today.' },
-      { role: 'user', author: 'You', text: 'Great, what does shipping usually cost to New Jersey?' },
-      { role: 'agent', author: 'Infinity Technology Support', text: 'Ground service typically runs about $12, and orders over $150 qualify for free freight.' }
+      { role: 'agent', author: 'Infinity Technology Support', text: 'Welcome to Infinity Technology Support! What kind of issue are you running into today?' },
+      { role: 'user', author: 'You', text: 'Hi, my laptop keeps dropping off the company Wi-Fi.' },
+      { role: 'agent', author: 'Infinity Technology Support', text: 'Thanks for letting me know. Is this happening on any other networks or just at the office?' },
+      { role: 'user', author: 'You', text: 'Only at the office. It works fine at home.' },
+      { role: 'agent', author: 'Infinity Technology Support', text: 'Got it. I see your device hasn’t installed the latest network drivers yet. Let me push those down now.' },
+      { role: 'user', author: 'You', text: 'Okay, I just got a notification for an update.' },
+      { role: 'agent', author: 'Infinity Technology Support', text: 'Perfect—go ahead and install that, then reboot. I’ll stay here to confirm the Wi-Fi reconnects.' }
     ];
 
     const chatLog = document.getElementById('chatLog');
