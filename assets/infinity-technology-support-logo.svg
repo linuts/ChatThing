@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 180" role="img" aria-labelledby="title desc">
+  <title id="title">Infinity Technology Support logo</title>
+  <desc id="desc">A navy gear containing the letters its connected to an infinity loop ending in a network connector.</desc>
+  <g fill="none" fill-rule="evenodd">
+    <g transform="translate(40 40)" fill="#0d3f62">
+      <circle cx="60" cy="50" r="36"/>
+      <circle cx="60" cy="50" r="22" fill="#ffffff"/>
+      <text x="60" y="58" text-anchor="middle" font-family="'Inter', 'Segoe UI', sans-serif" font-size="30" font-weight="600" fill="#0d3f62">its</text>
+      <rect x="56" y="4" width="8" height="18" rx="2"/>
+      <rect x="56" y="78" width="8" height="18" rx="2"/>
+      <rect x="12" y="46" width="18" height="8" rx="2"/>
+      <rect x="90" y="46" width="18" height="8" rx="2"/>
+      <rect x="25.6" y="15.6" width="8" height="18" rx="2" transform="rotate(-45 29.6 24.6)"/>
+      <rect x="90.4" y="15.6" width="8" height="18" rx="2" transform="rotate(45 94.4 24.6)"/>
+      <rect x="25.6" y="66.4" width="8" height="18" rx="2" transform="rotate(45 29.6 75.4)"/>
+      <rect x="90.4" y="66.4" width="8" height="18" rx="2" transform="rotate(-45 94.4 75.4)"/>
+    </g>
+    <path d="M156 90c0-36 34-54 64-54 20.6 0 39.8 10.4 52 26.6 12.2-16.2 31.4-26.6 52-26.6 30 0 56 20.4 56 54s-26 54-56 54c-20.6 0-39.8-10.4-52-26.6C259.8 133.6 240.6 144 220 144c-30 0-64-18-64-54Zm64-30c-26 0-42 16.8-42 30s16 30 42 30c18.8 0 34.8-10.4 44.2-26.8a9 9 0 0 1 15.6 0C309.2 109.6 325.2 120 344 120c26 0 42-16.8 42-30s-16-30-42-30c-18.8 0-34.8 10.4-44.2 26.8a9 9 0 0 1-15.6 0C254.8 70.4 238.8 60 220 60Z" fill="#0d3f62"/>
+    <g transform="translate(266 66)" fill="#0d3f62">
+      <rect x="64" y="18" width="30" height="36" rx="4"/>
+      <rect x="94" y="26" width="22" height="20" rx="2"/>
+      <rect x="99" y="30" width="4" height="12" fill="#ffffff" rx="1"/>
+      <rect x="107" y="30" width="4" height="12" fill="#ffffff" rx="1"/>
+      <rect x="115" y="30" width="4" height="12" fill="#ffffff" rx="1"/>
+    </g>
+  </g>
+</svg>

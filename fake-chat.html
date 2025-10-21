@@ -3,8 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Parts4Heating Support Chat</title>
+  <title>Infinity Technology Support Chat</title>
   <style>
+    html,
+    body {
+      height: 100%;
+    }
+
     :root {
       color-scheme: light;
       font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -16,7 +21,6 @@
       --color-muted: #6b7585;
       --color-primary: #479aed;
       --color-user: #479aed;
-      --shadow-soft: 0 24px 48px rgba(15, 23, 42, 0.08);
     }
 
     * {
@@ -25,31 +29,29 @@
 
     body {
       margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
+      min-height: 100%;
       background: var(--color-body);
       color: var(--color-text);
+      display: flex;
+      flex-direction: column;
     }
 
     .chat-shell {
       background: var(--color-surface);
-      border-radius: 18px;
+      border-radius: 0;
       border: 1px solid var(--color-border);
-      width: min(460px, 100%);
-      min-height: 620px;
+      width: 100%;
+      min-height: 100%;
+      flex: 1 1 auto;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      box-shadow: var(--shadow-soft);
     }
 
     .chat-shell__header {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start;
       padding: 20px 24px;
       background: var(--color-surface);
       border-bottom: 1px solid var(--color-border);
@@ -88,42 +90,6 @@
       margin: 0;
       font-size: 0.875rem;
       color: var(--color-muted);
-    }
-
-    .chat-shell__actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .icon-button {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      border: 1px solid var(--color-border);
-      background: var(--color-surface);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--color-muted);
-      cursor: pointer;
-      transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
-    }
-
-    .icon-button:focus-visible {
-      outline: 2px solid var(--color-primary);
-      outline-offset: 2px;
-    }
-
-    .icon-button:hover {
-      background: var(--color-surface-muted);
-      border-color: var(--color-primary);
-      color: var(--color-primary);
-    }
-
-    .icon-button svg {
-      width: 20px;
-      height: 20px;
     }
 
     .chat-shell__main {
@@ -277,10 +243,14 @@
       box-shadow: none;
     }
 
-    .chat-shell__submit svg {
+    .chat-shell__submit-icon {
+      font-size: 22px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       width: 22px;
       height: 22px;
-      fill: currentColor;
     }
 
     .sr-only {
@@ -295,14 +265,6 @@
     }
 
     @media (max-width: 540px) {
-      body {
-        padding: 12px;
-      }
-
-      .chat-shell {
-        border-radius: 16px;
-      }
-
       .chat-shell__header,
       .chat-shell__form {
         padding-left: 16px;
@@ -320,26 +282,14 @@
   </style>
 </head>
 <body>
-  <section class="chat-shell" aria-label="Parts4Heating Support chat">
+  <section class="chat-shell" aria-label="Infinity Technology Support chat">
     <header class="chat-shell__header">
       <div class="chat-shell__profile">
-        <img class="chat-shell__avatar" src="https://parts4heating.a.gdms.cloud/images/logo/live_chat_1760621583.png" alt="Parts4Heating Support logo">
+        <img class="chat-shell__avatar" src="assets/infinity-technology-support-logo.svg" alt="Infinity Technology Support logo">
         <div class="chat-shell__titles">
-          <p class="chat-shell__title">Parts4Heating Support</p>
+          <p class="chat-shell__title">Infinity Technology Support</p>
           <p class="chat-shell__subtitle">Online · Typically replies in under a minute</p>
         </div>
-      </div>
-      <div class="chat-shell__actions">
-        <button type="button" class="icon-button" aria-label="Start a call">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M6.77 3.05c.54-.37 1.18-.38 1.7.06l2.15 1.86c.6.52.75 1.36.32 2.05l-.86 1.37c-.28.44-.26 1 .06 1.42 1.21 1.66 2.71 3.1 4.37 4.31.41.3.95.34 1.39.09l1.39-.77c.73-.41 1.63-.22 2.17.44l1.72 2.11c.43.53.41 1.28-.02 1.8-.91 1.09-2.36 1.76-3.73 1.54-3.56-.6-7.47-3.41-10.64-7.06-2.93-3.35-4.65-7.07-4.63-10.14 0-1.5.75-2.8 1.8-3.45Z" />
-          </svg>
-        </button>
-        <button type="button" class="icon-button" aria-label="More options">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M5 12a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm9 0a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm3 2a2 2 0 1 0 4 0 2 2 0 0 0-4 0Z" />
-          </svg>
-        </button>
       </div>
     </header>
     <main class="chat-shell__main">
@@ -353,29 +303,27 @@
       <input id="chatMessage" class="chat-shell__input" name="message" type="text" placeholder="Enter messages" required>
       <button type="submit" class="chat-shell__submit">
         <span class="sr-only">Send message</span>
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="m3.41 10.79 5.06 2.86c.32.18.71.15.99-.07l6.51-5.39-5.38 6.53a1 1 0 0 0-.1 1.11l2.87 5.06c.34.6 1.2.64 1.62.06l5.03-7.06c.25-.35.24-.82-.02-1.17a.97.97 0 0 0-.8-.37l-11.9.23 8.71-6.2c.46-.33.56-.98.22-1.45-.23-.32-.62-.46-.99-.37L3.6 9.48c-.8.2-1.04 1.2-.19 1.31Z" />
-        </svg>
+        <span class="chat-shell__submit-icon" aria-hidden="true">📨</span>
       </button>
     </form>
   </section>
   <script>
     const messageTemplates = [
-      { author: 'Parts4Heating Support', role: 'agent', text: 'If you need anything else for that unit, I can bundle the parts to save on shipping.' },
-      { author: 'Parts4Heating Support', role: 'agent', text: 'Most Raypak components ship the same day if we confirm the order before 3 PM ET.' },
-      { author: 'Parts4Heating Support', role: 'agent', text: 'Would you like me to email installation tips or troubleshooting guides along with your order?' },
-      { author: 'Parts4Heating Support', role: 'agent', text: 'Feel free to send photos of the heater label if you want me to double-check compatibility.' },
-      { author: 'Parts4Heating Support', role: 'agent', text: 'Thanks for reaching out to Parts4Heating—just let me know when you are ready to proceed.' }
+      { author: 'Infinity Technology Support', role: 'agent', text: 'If you need anything else for that unit, I can bundle the parts to save on shipping.' },
+      { author: 'Infinity Technology Support', role: 'agent', text: 'Most Raypak components ship the same day if we confirm the order before 3 PM ET.' },
+      { author: 'Infinity Technology Support', role: 'agent', text: 'Would you like me to email installation tips or troubleshooting guides along with your order?' },
+      { author: 'Infinity Technology Support', role: 'agent', text: 'Feel free to send photos of the heater label if you want me to double-check compatibility.' },
+      { author: 'Infinity Technology Support', role: 'agent', text: 'Thanks for reaching out to Infinity Technology Support—just let me know when you are ready to proceed.' }
     ];
 
     const scriptedConversation = [
-      { role: 'agent', author: 'Parts4Heating Support', text: 'Welcome! Please enter the requested information so that we can better serve you.' },
+      { role: 'agent', author: 'Infinity Technology Support', text: 'Welcome! Please enter the requested information so that we can better serve you.' },
       { role: 'user', author: 'You', text: 'Hi there, I need a replacement igniter for a Raypak 266A heater.' },
-      { role: 'agent', author: 'Parts4Heating Support', text: 'I can help with that. Do you know the exact model number or serial from the rating plate?' },
+      { role: 'agent', author: 'Infinity Technology Support', text: 'I can help with that. Do you know the exact model number or serial from the rating plate?' },
       { role: 'user', author: 'You', text: 'Yes, the serial number ends with 3419.' },
-      { role: 'agent', author: 'Parts4Heating Support', text: 'Perfect— that points to the IID kit R185106. We have it in stock and it ships today.' },
+      { role: 'agent', author: 'Infinity Technology Support', text: 'Perfect— that points to the IID kit R185106. We have it in stock and it ships today.' },
       { role: 'user', author: 'You', text: 'Great, what does shipping usually cost to New Jersey?' },
-      { role: 'agent', author: 'Parts4Heating Support', text: 'Ground service typically runs about $12, and orders over $150 qualify for free freight.' }
+      { role: 'agent', author: 'Infinity Technology Support', text: 'Ground service typically runs about $12, and orders over $150 qualify for free freight.' }
     ];
 
     const chatLog = document.getElementById('chatLog');
