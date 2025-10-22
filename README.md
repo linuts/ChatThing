@@ -1,6 +1,6 @@
 # ChatThing
 
-ChatThing is a zero-dependency widget that mounts a draggable, swipe-friendly chat surface onto any page. The script self-injects markup, styles, and behavior so teams can bolt on live-chat (or a fake/demo feed) without touching their existing CSS pipeline.
+ChatThing is a zero-dependency widget that mounts a draggable, swipe-friendly chat surface onto any page. The script self-injects markup, styles, and behavior so teams can bolt on live-chat (or a fake/demo feed) without touching their existing CSS pipeline, and it stays responsive on phones, tablets, and desktops with no extra work.
 
 ## Live Demo
 https://linuts.github.io/ChatThing/
