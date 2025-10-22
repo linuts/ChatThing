@@ -5,15 +5,15 @@
 /* ===== P4H Live Chat Widget (responsive + drag + swipe, fixed close over handle) ===== */
 :root{
   --vh: 1vh;
-  --p4h-peek-height: calc(68px + 14px + env(safe-area-inset-bottom, 0)); /* JS sets real vh for iOS */
-  --p4h-primary-color: #143382;
-  --p4h-primary-color-rgb: 20, 51, 130;
-  --p4h-secondary-color: #f1b800;
-  --p4h-secondary-color-rgb: 241, 184, 0;
-  --p4h-primary-contrast-color: #ffffff;
-  --p4h-secondary-contrast-color: #0e2541;
-  --p4h-text-primary-color: #0e2541;
-  --p4h-text-secondary-color: #2c5cc5;
+  --its-peek-height: calc(68px + 14px + env(safe-area-inset-bottom, 0)); /* JS sets real vh for iOS */
+  --its-primary-color: #143382;
+  --its-primary-color-rgb: 20, 51, 130;
+  --its-secondary-color: #f1b800;
+  --its-secondary-color-rgb: 241, 184, 0;
+  --its-primary-contrast-color: #ffffff;
+  --its-secondary-contrast-color: #0e2541;
+  --its-text-primary-color: #0e2541;
+  --its-text-secondary-color: #2c5cc5;
 }
 
 .p4h-chat-launcher{
@@ -24,12 +24,12 @@
   width:64px;
   height:64px;
   border-radius:50%;
-  background:var(--p4h-primary-color, #143382);
-  color:var(--p4h-primary-contrast-color, #fff);
+  background:var(--its-primary-color, #143382);
+  color:var(--its-primary-contrast-color, #fff);
   display:flex;
   align-items:center;
   justify-content:center;
-  box-shadow:0 8px 24px rgba(var(--p4h-primary-color-rgb, 20, 51, 130), 0.32);
+  box-shadow:0 8px 24px rgba(var(--its-primary-color-rgb, 20, 51, 130), 0.32);
   cursor:pointer;
   user-select:none;
   font:600 16px/1 system-ui, -apple-system, Segoe UI, Roboto, Arial;
@@ -43,10 +43,10 @@
 .p4h-chat-launcher:hover,
 .p4h-chat-launcher:focus-visible{
   transform:translateY(-3px);
-  box-shadow:0 12px 32px rgba(var(--p4h-primary-color-rgb, 20, 51, 130), 0.4);
+  box-shadow:0 12px 32px rgba(var(--its-primary-color-rgb, 20, 51, 130), 0.4);
 }
 .p4h-chat-launcher:focus-visible{
-  outline:3px solid rgba(var(--p4h-secondary-color-rgb, 241, 184, 0), 0.8);
+  outline:3px solid rgba(var(--its-secondary-color-rgb, 241, 184, 0), 0.8);
   outline-offset:4px;
 }
 .p4h-chat-launcher[data-hidden="true"]{ display:none; }
@@ -54,8 +54,8 @@
   position:absolute;
   top:-6px;
   right:-6px;
-  background:var(--p4h-secondary-color, #f1b800);
-  color:var(--p4h-secondary-contrast-color, #0e2541);
+  background:var(--its-secondary-color, #f1b800);
+  color:var(--its-secondary-contrast-color, #0e2541);
   border-radius:999px;
   padding:3px 7px;
   font-size:12px;
@@ -69,8 +69,8 @@
   position:fixed;
   left:20px;
   z-index:2147483646;
-  --p4h-bottom-offset: 90px;
-  bottom:var(--p4h-bottom-offset);
+  --its-bottom-offset: 90px;
+  bottom:var(--its-bottom-offset);
   width:380px;
   height:min(80vh, 760px);
   max-width:calc(100vw - 32px);
@@ -80,8 +80,8 @@
   box-shadow:0 16px 40px rgba(0,0,0,.35);
   display:none;
   background:#fff;
-  --p4h-shift: 0px;
-  --p4h-swipe-x: 0px;
+  --its-shift: 0px;
+  --its-swipe-x: 0px;
   transform:translateY(6px);
   opacity:0;
 }
@@ -114,14 +114,14 @@
   text-align:center;
   gap:16px;
   padding:32px;
-  color:var(--p4h-text-primary-color, #0e2541);
+  color:var(--its-text-primary-color, #0e2541);
   background:linear-gradient(180deg, rgba(255,255,255,0.97), rgba(236,241,252,0.97));
   background:linear-gradient(
     180deg,
-    color-mix(in srgb, var(--p4h-primary-color, #143382) 6%, #ffffff) 0%,
-    color-mix(in srgb, var(--p4h-primary-color, #143382) 18%, #ffffff) 100%
+    color-mix(in srgb, var(--its-primary-color, #143382) 6%, #ffffff) 0%,
+    color-mix(in srgb, var(--its-primary-color, #143382) 18%, #ffffff) 100%
   );
-  border-top:1px solid rgba(var(--p4h-primary-color-rgb, 20, 51, 130), 0.12);
+  border-top:1px solid rgba(var(--its-primary-color-rgb, 20, 51, 130), 0.12);
 }
 .p4h-chat-fallback:not([hidden]){
   display:flex;
@@ -145,10 +145,10 @@
 }
 .p4h-chat-fallback__item{
   font:600 15px/1.4 "Segoe UI", system-ui, -apple-system, sans-serif;
-  color:var(--p4h-text-primary-color, #0e2541);
+  color:var(--its-text-primary-color, #0e2541);
 }
 .p4h-chat-fallback__link{
-  color:var(--p4h-text-secondary-color, #2c5cc5);
+  color:var(--its-text-secondary-color, #2c5cc5);
   text-decoration:underline;
   font-weight:600;
 }
@@ -163,8 +163,8 @@
   left:0;
   right:0;
   padding:10px 16px;
-  background:rgba(var(--p4h-secondary-color-rgb, 241, 184, 0), 0.92);
-  color:var(--p4h-secondary-contrast-color, #0e2541);
+  background:rgba(var(--its-secondary-color-rgb, 241, 184, 0), 0.92);
+  color:var(--its-secondary-contrast-color, #0e2541);
   box-shadow:0 8px 20px rgba(0, 0, 0, 0.18);
   border-bottom:1px solid rgba(0,0,0,0.08);
   border-radius:0 0 12px 12px;
@@ -185,18 +185,18 @@
   transform:none;
 }
 .p4h-chat-panel[data-open="true"][data-swiping="true"]{
-  transform:translate3d(var(--p4h-swipe-x, 0px), var(--p4h-shift, 0px), 0);
+  transform:translate3d(var(--its-swipe-x, 0px), var(--its-shift, 0px), 0);
 }
 .p4h-chat-panel[data-peek="true"]{
   opacity:1;
-  transform:translateY(calc(100% + var(--p4h-bottom-offset) - var(--p4h-peek-height)));
+  transform:translateY(calc(100% + var(--its-bottom-offset) - var(--its-peek-height)));
 }
 .p4h-chat-panel[data-align="right"][data-peek="true"]{
   left:auto;
   right:20px;
 }
 .p4h-chat-panel[data-peek="true"][data-swiping="true"]{
-  transform:translate3d(var(--p4h-swipe-x, 0px), calc(100% + var(--p4h-bottom-offset) - var(--p4h-peek-height) + var(--p4h-shift, 0px)), 0);
+  transform:translate3d(var(--its-swipe-x, 0px), calc(100% + var(--its-bottom-offset) - var(--its-peek-height) + var(--its-shift, 0px)), 0);
 }
 .p4h-chat-panel[data-peek="true"] .p4h-peek-hint{
   display:flex;
@@ -221,7 +221,7 @@
 }
 .p4h-chat-panel[data-peek="true"][data-reveal="true"]{
   background:#fff;
-  color:var(--p4h-text-primary-color, #0e2541);
+  color:var(--its-text-primary-color, #0e2541);
 }
 .p4h-chat-panel[data-closing]{
   pointer-events:none;
@@ -233,7 +233,7 @@
   top:10px;
   right:10px;
   z-index:4;  /* higher than handle */
-  color:var(--p4h-primary-contrast-color, #fff);
+  color:var(--its-primary-contrast-color, #fff);
   display:flex;
   align-items:center;
   justify-content:flex-end;
@@ -256,7 +256,7 @@
   height:36px;
   padding:0 12px;
   background:rgba(10, 16, 28, 0.42);
-  color:var(--p4h-primary-contrast-color, #fff);
+  color:var(--its-primary-contrast-color, #fff);
   cursor:pointer;
   font-size:19px;
   font-weight:600;
@@ -273,7 +273,7 @@
   box-shadow:0 6px 16px rgba(0,0,0,0.22);
 }
 .p4h-chat-btn:focus-visible{
-  outline:2px solid rgba(var(--p4h-secondary-color-rgb, 241, 184, 0), 0.85);
+  outline:2px solid rgba(var(--its-secondary-color-rgb, 241, 184, 0), 0.85);
   outline-offset:3px;
   background:rgba(10, 16, 28, 0.66);
   border-color:rgba(255,255,255,0.45);
@@ -315,8 +315,8 @@
   z-index:2;
   background:linear-gradient(
     to bottom,
-    rgba(var(--p4h-secondary-color-rgb, 241, 184, 0), 0.32),
-    rgba(var(--p4h-secondary-color-rgb, 241, 184, 0), 0)
+    rgba(var(--its-secondary-color-rgb, 241, 184, 0), 0.32),
+    rgba(var(--its-secondary-color-rgb, 241, 184, 0), 0)
   ); /* subtle hint */
 }
 
@@ -324,8 +324,8 @@
 @media (max-width: 1024px){
   .p4h-chat-panel{
     left:16px;
-    --p4h-bottom-offset: 84px;
-    bottom:var(--p4h-bottom-offset);
+    --its-bottom-offset: 84px;
+    bottom:var(--its-bottom-offset);
     width:min(560px, 92vw);
     height:min(78vh, 780px);
   }
@@ -343,15 +343,15 @@
     left:0;
     right:0;
     margin:0 auto;
-    --p4h-bottom-offset: calc(78px + env(safe-area-inset-bottom, 0));
-    bottom:var(--p4h-bottom-offset);
+    --its-bottom-offset: calc(78px + env(safe-area-inset-bottom, 0));
+    bottom:var(--its-bottom-offset);
     width:calc(100vw - 32px);
     max-width:420px;
     height:85vh;                            /* fallback */
     height:calc(var(--vh) * 85);            /* iOS JS-computed */
     height:85dvh;                           /* modern browsers */
-    max-height:calc(100vh - var(--p4h-bottom-offset) - 12px);
-    max-height:calc(100dvh - var(--p4h-bottom-offset) - 12px);
+    max-height:calc(100vh - var(--its-bottom-offset) - 12px);
+    max-height:calc(100dvh - var(--its-bottom-offset) - 12px);
     border-radius:18px;
     box-shadow:0 12px 32px rgba(0,0,0,.28);
     padding-bottom:env(safe-area-inset-bottom,0);
@@ -370,25 +370,25 @@
     height:68px;
     max-height:68px;
     transform:none;
-    background:var(--p4h-primary-color, #143382);
-    color:var(--p4h-primary-contrast-color, #fff);
+    background:var(--its-primary-color, #143382);
+    color:var(--its-primary-contrast-color, #fff);
     border-radius:18px;
     box-shadow:0 10px 24px rgba(0,0,0,0.28);
   }
   .p4h-chat-panel[data-peek="true"][data-reveal="true"]{
     height:calc(var(--vh) * 85);
-    max-height:calc(100vh - var(--p4h-bottom-offset) - 12px);
-    max-height:calc(100dvh - var(--p4h-bottom-offset) - 12px);
+    max-height:calc(100vh - var(--its-bottom-offset) - 12px);
+    max-height:calc(100dvh - var(--its-bottom-offset) - 12px);
     background:#fff;
-    color:var(--p4h-text-primary-color, #0e2541);
+    color:var(--its-text-primary-color, #0e2541);
     box-shadow:0 16px 40px rgba(0,0,0,0.35);
   }
   .p4h-chat-panel[data-peek="true"][data-reveal="true"] .p4h-drag-handle{
     height:clamp(48px, 16%, 120px);
     background:linear-gradient(
       to bottom,
-      rgba(var(--p4h-secondary-color-rgb, 241, 184, 0), 0.32),
-      rgba(var(--p4h-secondary-color-rgb, 241, 184, 0), 0)
+      rgba(var(--its-secondary-color-rgb, 241, 184, 0), 0.32),
+      rgba(var(--its-secondary-color-rgb, 241, 184, 0), 0)
     );
   }
   .p4h-chat-panel[data-peek="true"] .p4h-peek-hint{
@@ -397,13 +397,13 @@
     justify-content:flex-start;
     height:100%;
     padding:0 18px;
-    background:rgba(var(--p4h-secondary-color-rgb, 241, 184, 0), 0.9);
+    background:rgba(var(--its-secondary-color-rgb, 241, 184, 0), 0.9);
     background:linear-gradient(
       90deg,
-      color-mix(in srgb, rgb(var(--p4h-secondary-color-rgb, 241, 184, 0)) 82%, #000 18%) 0%,
-      color-mix(in srgb, rgb(var(--p4h-secondary-color-rgb, 241, 184, 0)) 88%, #000 12%) 100%
+      color-mix(in srgb, rgb(var(--its-secondary-color-rgb, 241, 184, 0)) 82%, #000 18%) 0%,
+      color-mix(in srgb, rgb(var(--its-secondary-color-rgb, 241, 184, 0)) 88%, #000 12%) 100%
     );
-    color:var(--p4h-secondary-contrast-color, #0e2541);
+    color:var(--its-secondary-contrast-color, #0e2541);
   }
   .p4h-chat-panel[data-peek="true"] .p4h-peek-hint[data-align="right"]{
     justify-content:flex-end;
@@ -422,13 +422,13 @@
     pointer-events:auto;
     background:linear-gradient(
       180deg,
-      rgba(var(--p4h-secondary-color-rgb, 241, 184, 0), 0.9) 0%,
-      rgba(var(--p4h-secondary-color-rgb, 241, 184, 0), 0.75) 100%
+      rgba(var(--its-secondary-color-rgb, 241, 184, 0), 0.9) 0%,
+      rgba(var(--its-secondary-color-rgb, 241, 184, 0), 0.75) 100%
     );
     background:linear-gradient(
       180deg,
-      color-mix(in srgb, rgb(var(--p4h-secondary-color-rgb, 241, 184, 0)) 68%, #000 32%) 0%,
-      color-mix(in srgb, rgb(var(--p4h-secondary-color-rgb, 241, 184, 0)) 46%, #000 54%) 100%
+      color-mix(in srgb, rgb(var(--its-secondary-color-rgb, 241, 184, 0)) 68%, #000 32%) 0%,
+      color-mix(in srgb, rgb(var(--its-secondary-color-rgb, 241, 184, 0)) 46%, #000 54%) 100%
     );
     height:100%;
   }
@@ -491,8 +491,8 @@
     max-height:68px;
     width:min(560px, 92vw);
     transform:none;
-    background:var(--p4h-primary-color, #143382);
-    color:var(--p4h-primary-contrast-color, #fff);
+    background:var(--its-primary-color, #143382);
+    color:var(--its-primary-contrast-color, #fff);
     border-radius:18px;
     box-shadow:0 14px 30px rgba(0,0,0,0.24);
   }
@@ -509,13 +509,13 @@
     justify-content:flex-start;
     height:100%;
     padding:0 20px;
-    background:rgba(var(--p4h-secondary-color-rgb, 241, 184, 0), 0.9);
+    background:rgba(var(--its-secondary-color-rgb, 241, 184, 0), 0.9);
     background:linear-gradient(
       90deg,
-      color-mix(in srgb, rgb(var(--p4h-secondary-color-rgb, 241, 184, 0)) 80%, #000 20%) 0%,
-      color-mix(in srgb, rgb(var(--p4h-secondary-color-rgb, 241, 184, 0)) 86%, #000 14%) 100%
+      color-mix(in srgb, rgb(var(--its-secondary-color-rgb, 241, 184, 0)) 80%, #000 20%) 0%,
+      color-mix(in srgb, rgb(var(--its-secondary-color-rgb, 241, 184, 0)) 86%, #000 14%) 100%
     );
-    color:var(--p4h-secondary-contrast-color, #0e2541);
+    color:var(--its-secondary-contrast-color, #0e2541);
   }
   .p4h-chat-panel[data-peek="true"] .p4h-peek-hint[data-align="right"]{
     justify-content:flex-end;
@@ -524,13 +524,13 @@
     height:100%;
     background:linear-gradient(
       180deg,
-      rgba(var(--p4h-secondary-color-rgb, 241, 184, 0), 0.88) 0%,
-      rgba(var(--p4h-secondary-color-rgb, 241, 184, 0), 0.7) 100%
+      rgba(var(--its-secondary-color-rgb, 241, 184, 0), 0.88) 0%,
+      rgba(var(--its-secondary-color-rgb, 241, 184, 0), 0.7) 100%
     );
     background:linear-gradient(
       180deg,
-      color-mix(in srgb, rgb(var(--p4h-secondary-color-rgb, 241, 184, 0)) 62%, #000 38%) 0%,
-      color-mix(in srgb, rgb(var(--p4h-secondary-color-rgb, 241, 184, 0)) 40%, #000 60%) 100%
+      color-mix(in srgb, rgb(var(--its-secondary-color-rgb, 241, 184, 0)) 62%, #000 38%) 0%,
+      color-mix(in srgb, rgb(var(--its-secondary-color-rgb, 241, 184, 0)) 40%, #000 60%) 100%
     );
   }
 }
@@ -540,8 +540,8 @@
     height:64px;
     max-height:64px;
     transform:none;
-    background:var(--p4h-primary-color, #143382);
-    color:var(--p4h-primary-contrast-color, #fff);
+    background:var(--its-primary-color, #143382);
+    color:var(--its-primary-contrast-color, #fff);
   }
   .p4h-chat-panel[data-peek="true"] .p4h-chat-iframe{
     display:none;
@@ -552,25 +552,25 @@
     justify-content:flex-start;
     height:100%;
     padding:0 16px;
-    background:rgba(var(--p4h-secondary-color-rgb, 241, 184, 0), 0.88);
+    background:rgba(var(--its-secondary-color-rgb, 241, 184, 0), 0.88);
     background:linear-gradient(
       90deg,
-      color-mix(in srgb, rgb(var(--p4h-secondary-color-rgb, 241, 184, 0)) 78%, #000 22%) 0%,
-      color-mix(in srgb, rgb(var(--p4h-secondary-color-rgb, 241, 184, 0)) 84%, #000 16%) 100%
+      color-mix(in srgb, rgb(var(--its-secondary-color-rgb, 241, 184, 0)) 78%, #000 22%) 0%,
+      color-mix(in srgb, rgb(var(--its-secondary-color-rgb, 241, 184, 0)) 84%, #000 16%) 100%
     );
-    color:var(--p4h-secondary-contrast-color, #0e2541);
+    color:var(--its-secondary-contrast-color, #0e2541);
   }
   .p4h-chat-panel[data-peek="true"] .p4h-drag-handle{
     height:100%;
     background:linear-gradient(
       180deg,
-      rgba(var(--p4h-secondary-color-rgb, 241, 184, 0), 0.84) 0%,
-      rgba(var(--p4h-secondary-color-rgb, 241, 184, 0), 0.66) 100%
+      rgba(var(--its-secondary-color-rgb, 241, 184, 0), 0.84) 0%,
+      rgba(var(--its-secondary-color-rgb, 241, 184, 0), 0.66) 100%
     );
     background:linear-gradient(
       180deg,
-      color-mix(in srgb, rgb(var(--p4h-secondary-color-rgb, 241, 184, 0)) 58%, #000 42%) 0%,
-      color-mix(in srgb, rgb(var(--p4h-secondary-color-rgb, 241, 184, 0)) 36%, #000 64%) 100%
+      color-mix(in srgb, rgb(var(--its-secondary-color-rgb, 241, 184, 0)) 58%, #000 42%) 0%,
+      color-mix(in srgb, rgb(var(--its-secondary-color-rgb, 241, 184, 0)) 36%, #000 64%) 100%
     );
   }
 }
@@ -581,8 +581,8 @@
     left:12px;
     right:auto;
     top:calc(env(safe-area-inset-top, 0) + 12px);
-    --p4h-bottom-offset: calc(12px + env(safe-area-inset-bottom, 0));
-    bottom:var(--p4h-bottom-offset);
+    --its-bottom-offset: calc(12px + env(safe-area-inset-bottom, 0));
+    bottom:var(--its-bottom-offset);
     width:min(560px, calc(100vw - 24px));
     max-width:100%;
     height:auto;
@@ -822,14 +822,14 @@
   function applyThemeColors(){
     const target = document.documentElement;
     if(!target) return;
-    target.style.setProperty('--p4h-primary-color', PRIMARY_COLOR);
-    target.style.setProperty('--p4h-primary-color-rgb', PRIMARY_COLOR_RGB);
-    target.style.setProperty('--p4h-secondary-color', SECONDARY_COLOR);
-    target.style.setProperty('--p4h-secondary-color-rgb', SECONDARY_COLOR_RGB);
-    target.style.setProperty('--p4h-primary-contrast-color', PRIMARY_CONTRAST_COLOR);
-    target.style.setProperty('--p4h-secondary-contrast-color', SECONDARY_CONTRAST_COLOR);
-    target.style.setProperty('--p4h-text-primary-color', TEXT_PRIMARY_COLOR);
-    target.style.setProperty('--p4h-text-secondary-color', TEXT_SECONDARY_COLOR);
+    target.style.setProperty('--its-primary-color', PRIMARY_COLOR);
+    target.style.setProperty('--its-primary-color-rgb', PRIMARY_COLOR_RGB);
+    target.style.setProperty('--its-secondary-color', SECONDARY_COLOR);
+    target.style.setProperty('--its-secondary-color-rgb', SECONDARY_COLOR_RGB);
+    target.style.setProperty('--its-primary-contrast-color', PRIMARY_CONTRAST_COLOR);
+    target.style.setProperty('--its-secondary-contrast-color', SECONDARY_CONTRAST_COLOR);
+    target.style.setProperty('--its-text-primary-color', TEXT_PRIMARY_COLOR);
+    target.style.setProperty('--its-text-secondary-color', TEXT_SECONDARY_COLOR);
   }
 
   const MARKUP = `
@@ -1091,8 +1091,8 @@
       } else {
         showFallback($fallback, $frame);
       }
-      $panel.style.removeProperty('--p4h-shift');
-      $panel.style.removeProperty('--p4h-swipe-x');
+      $panel.style.removeProperty('--its-shift');
+      $panel.style.removeProperty('--its-swipe-x');
       $panel.style.transform = '';
       $panel.style.opacity = '';
       updateMinimizeButton();
@@ -1141,8 +1141,8 @@
         }
       }
       $panel.style.transform = '';
-      $panel.style.removeProperty('--p4h-shift');
-      $panel.style.removeProperty('--p4h-swipe-x');
+      $panel.style.removeProperty('--its-shift');
+      $panel.style.removeProperty('--its-swipe-x');
       if($panel.contains(document.activeElement)){
         try { document.activeElement.blur(); } catch(e){}
       }
@@ -1205,8 +1205,8 @@
         $panel.style.display = 'none';
         $panel.style.opacity = '';
         $panel.style.transform = '';
-        $panel.style.removeProperty('--p4h-shift');
-        $panel.style.removeProperty('--p4h-swipe-x');
+        $panel.style.removeProperty('--its-shift');
+        $panel.style.removeProperty('--its-swipe-x');
         updateMinimizeButton();
         updatePeekHint(false);
         showLauncher();
@@ -1293,8 +1293,8 @@
       $panel.style.transition = 'none';
       $panel.style.willChange = 'transform';
       $panel.setAttribute('data-swiping', 'true');
-      $panel.style.removeProperty('--p4h-shift');
-      $panel.style.removeProperty('--p4h-swipe-x');
+      $panel.style.removeProperty('--its-shift');
+      $panel.style.removeProperty('--its-swipe-x');
     };
     const handleTouchMove = (e)=>{
       if(!swiping) return;
@@ -1318,8 +1318,8 @@
         const rect = $panel.getBoundingClientRect();
         const limit = Math.max(90, Math.min(window.innerWidth, rect.width) * 0.45);
         swipeShiftX = Math.max(-limit, Math.min(deltaX, limit));
-        $panel.style.setProperty('--p4h-swipe-x', `${swipeShiftX}px`);
-        $panel.style.removeProperty('--p4h-shift');
+        $panel.style.setProperty('--its-swipe-x', `${swipeShiftX}px`);
+        $panel.style.removeProperty('--its-shift');
       } else {
         const rawHeight = $panel.clientHeight || window.innerHeight;
         const limit = peekAtStart ? window.innerHeight : Math.min(rawHeight, window.innerHeight);
@@ -1327,8 +1327,8 @@
           ? Math.max(-limit, Math.min(0, deltaY))
           : Math.max(0, Math.min(deltaY, limit));
         swipeShiftX = 0;
-        $panel.style.setProperty('--p4h-shift', `${translate}px`);
-        $panel.style.setProperty('--p4h-swipe-x', '0px');
+        $panel.style.setProperty('--its-shift', `${translate}px`);
+        $panel.style.setProperty('--its-swipe-x', '0px');
         if(peekAtStart){
           const revealThreshold = -32;
           if(translate < revealThreshold){
@@ -1356,8 +1356,8 @@
       swiping = false;
       $panel.style.transition = '';
       $panel.style.removeProperty('willChange');
-      $panel.style.removeProperty('--p4h-shift');
-      $panel.style.removeProperty('--p4h-swipe-x');
+      $panel.style.removeProperty('--its-shift');
+      $panel.style.removeProperty('--its-swipe-x');
       $panel.removeAttribute('data-swiping');
       const isTap = Math.abs(deltaY) <= 10 && Math.abs(deltaX) <= 10;
       const horizontalDistance = Math.abs(swipeShiftX);
