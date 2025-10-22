@@ -84,7 +84,10 @@
   const secondaryColorAttr = readScriptAttr('data-secondary-color');
   const textPrimaryAttr = readScriptAttr('data-text-primary-color');
   const textSecondaryAttr = readScriptAttr('data-text-secondary-color');
-  const pillTextAttr = readScriptAttr('data-pill-text');
+  const buttonOpenTextAttr = readScriptAttr('data-button-open-text');
+  const buttonOpenAlignAttr = readScriptAttr('data-button-open-align');
+  const buttonControlsAlignAttr = readScriptAttr('data-button-controls-align');
+  const legacyPillTextAttr = readScriptAttr('data-pill-text');
   const DEFAULT_PRIMARY = '#143382';
   const DEFAULT_SECONDARY = '#f1b800';
   const DEFAULT_PRIMARY_RGB = '20, 51, 130';
@@ -99,7 +102,17 @@
   const SECONDARY_CONTRAST_COLOR = pickContrastColor(SECONDARY_COLOR_RGB, '#ffffff', '#0e2541');
   const TEXT_PRIMARY_COLOR = normalizeColor(textPrimaryAttr, DEFAULT_TEXT_PRIMARY);
   const TEXT_SECONDARY_COLOR = normalizeColor(textSecondaryAttr, DEFAULT_TEXT_SECONDARY);
-  const PILL_TEXT = pillTextAttr || null;
+  const BUTTON_OPEN_TEXT = buttonOpenTextAttr || legacyPillTextAttr || null;
+  const BUTTON_OPEN_ALIGN = (() => {
+    if(!buttonOpenAlignAttr) return 'left';
+    const value = buttonOpenAlignAttr.trim().toLowerCase();
+    return value === 'right' ? 'right' : 'left';
+  })();
+  const BUTTON_CONTROLS_ALIGN = (() => {
+    if(!buttonControlsAlignAttr) return 'right';
+    const value = buttonControlsAlignAttr.trim().toLowerCase();
+    return value === 'left' ? 'left' : 'right';
+  })();
 
   function buildTelHref(phone){
     if(!phone) return null;
@@ -277,6 +290,19 @@
     const $fallback = document.getElementById('p4hChatFallback');
     const $badge    = document.getElementById('p4hChatBadge');
 
+    if($launcher){
+      $launcher.dataset.align = BUTTON_OPEN_ALIGN;
+    }
+    if($panel){
+      $panel.dataset.align = BUTTON_OPEN_ALIGN;
+    }
+    if($controls){
+      $controls.dataset.align = BUTTON_CONTROLS_ALIGN;
+    }
+    if($peekHint){
+      $peekHint.dataset.align = BUTTON_CONTROLS_ALIGN === 'left' ? 'right' : 'left';
+    }
+
     let chatDisabled = !hasChatUrl;
     let loaded = false;
     let loadSucceeded = false;
@@ -354,8 +380,8 @@
     updateMinimizeButton();
 
     if($badge){
-      if(PILL_TEXT){
-        $badge.textContent = PILL_TEXT;
+      if(BUTTON_OPEN_TEXT){
+        $badge.textContent = BUTTON_OPEN_TEXT;
       } else {
         $badge.remove();
       }
