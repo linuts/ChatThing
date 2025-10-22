@@ -16,12 +16,11 @@ https://linuts.github.io/ChatThing/
    - `data-chat-url`, `data-contact-phone`, `data-contact-email`
    - `data-primary-color`, `data-secondary-color`
    - Optional `data-text-primary-color`, `data-text-secondary-color`, `data-pill-text`
-2. Host `src/Chat.js` and `src/Chat.css` together; the script resolves the stylesheet relative to itself.
+2. Host `src/Chat.js`; the widget now inlines its stylesheet so no separate CSS file is required.
 3. Include the script via `<script src="path/to/Chat.js" …></script>` before `</body>`.
 
 ## Development Notes
-- `src/Chat.js` handles DOM injection, theming, and interaction logic.
-- `src/Chat.css` defines the UI skin, including peek-state tweaks and responsive layouts.
+- `src/Chat.js` handles DOM injection, theming, interaction logic, and ships the widget stylesheet inline.
 - Adjust constants such as peek thresholds inside `Chat.js` if interaction tuning is required.
 
 ## Testing
