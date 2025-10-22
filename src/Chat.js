@@ -81,6 +81,7 @@
   display:none;
   background:#fff;
   --p4h-shift: 0px;
+  --p4h-swipe-x: 0px;
   transform:translateY(6px);
   opacity:0;
 }
@@ -173,6 +174,7 @@
   text-align:left;
   pointer-events:none;
   z-index:3;
+  transition:opacity 0.18s ease;
 }
 .p4h-peek-hint[data-align="right"]{
   text-align:right;
@@ -183,7 +185,7 @@
   transform:none;
 }
 .p4h-chat-panel[data-open="true"][data-swiping="true"]{
-  transform:translateY(var(--p4h-shift, 0px));
+  transform:translate3d(var(--p4h-swipe-x, 0px), var(--p4h-shift, 0px), 0);
 }
 .p4h-chat-panel[data-peek="true"]{
   opacity:1;
@@ -194,7 +196,7 @@
   right:20px;
 }
 .p4h-chat-panel[data-peek="true"][data-swiping="true"]{
-  transform:translateY(calc(100% + var(--p4h-bottom-offset) - var(--p4h-peek-height) + var(--p4h-shift, 0px)));
+  transform:translate3d(var(--p4h-swipe-x, 0px), calc(100% + var(--p4h-bottom-offset) - var(--p4h-peek-height) + var(--p4h-shift, 0px)), 0);
 }
 .p4h-chat-panel[data-peek="true"] .p4h-peek-hint{
   display:flex;
@@ -207,6 +209,19 @@
 }
 .p4h-chat-panel[data-peek="true"] .p4h-chat-iframe{
   pointer-events:none;
+  opacity:0;
+  transition:opacity 0.18s ease;
+}
+.p4h-chat-panel[data-reveal="true"] .p4h-peek-hint{
+  opacity:0;
+}
+.p4h-chat-panel[data-peek="true"][data-reveal="true"] .p4h-chat-iframe{
+  pointer-events:auto;
+  opacity:1;
+}
+.p4h-chat-panel[data-peek="true"][data-reveal="true"]{
+  background:#fff;
+  color:var(--p4h-text-primary-color, #0e2541);
 }
 .p4h-chat-panel[data-closing]{
   pointer-events:none;
@@ -275,6 +290,14 @@
   transform:translateY(-50%);
 }
 .p4h-chat-panel[data-peek="true"] .p4h-chat-controls[data-align="left"]{
+  left:10px;
+  right:auto;
+}
+.p4h-chat-panel[data-peek="true"][data-reveal="true"] .p4h-chat-controls{
+  top:calc(10px + env(safe-area-inset-top,0));
+  transform:none;
+}
+.p4h-chat-panel[data-peek="true"][data-reveal="true"] .p4h-chat-controls[data-align="left"]{
   left:10px;
   right:auto;
 }
@@ -352,6 +375,22 @@
     border-radius:18px;
     box-shadow:0 10px 24px rgba(0,0,0,0.28);
   }
+  .p4h-chat-panel[data-peek="true"][data-reveal="true"]{
+    height:calc(var(--vh) * 85);
+    max-height:calc(100vh - var(--p4h-bottom-offset) - 12px);
+    max-height:calc(100dvh - var(--p4h-bottom-offset) - 12px);
+    background:#fff;
+    color:var(--p4h-text-primary-color, #0e2541);
+    box-shadow:0 16px 40px rgba(0,0,0,0.35);
+  }
+  .p4h-chat-panel[data-peek="true"][data-reveal="true"] .p4h-drag-handle{
+    height:clamp(48px, 16%, 120px);
+    background:linear-gradient(
+      to bottom,
+      rgba(var(--p4h-secondary-color-rgb, 241, 184, 0), 0.32),
+      rgba(var(--p4h-secondary-color-rgb, 241, 184, 0), 0)
+    );
+  }
   .p4h-chat-panel[data-peek="true"] .p4h-peek-hint{
     display:flex;
     align-items:center;
@@ -371,6 +410,12 @@
   }
   .p4h-chat-panel[data-peek="true"] .p4h-chat-iframe{
     display:none;
+  }
+  .p4h-chat-panel[data-peek="true"][data-reveal="true"] .p4h-chat-iframe{
+    display:block;
+  }
+  .p4h-chat-panel[data-peek="true"][data-reveal="true"] .p4h-peek-hint{
+    opacity:0;
   }
   .p4h-drag-handle{ height:clamp(56px, 18%, 140px); }
   .p4h-chat-panel[data-peek="true"] .p4h-drag-handle{
@@ -410,6 +455,29 @@
   .p4h-chat-launcher[data-align="right"]{
     left:auto;
     right:14px;
+  }
+
+  .p4h-chat-panel[data-peek="true"] .p4h-drag-handle::after{
+    content:'';
+    position:absolute;
+    left:50%;
+    top:16px;
+    width:42px;
+    height:5px;
+    border-radius:999px;
+    background:rgba(0,0,0,0.18);
+    transform:translateX(-50%);
+    transition:opacity 0.18s ease;
+    opacity:0.55;
+  }
+  .p4h-chat-panel[data-peek="true"][data-nudge="true"] .p4h-drag-handle::after{
+    opacity:0.92;
+  }
+}
+
+@media (max-width: 600px) and (prefers-reduced-motion: no-preference){
+  .p4h-chat-panel[data-peek="true"][data-nudge="true"]{
+    animation:p4h-peek-nudge 0.95s ease-out 0.24s 2;
   }
 }
 
@@ -531,6 +599,18 @@
   .p4h-chat-launcher{
     left:12px;
     bottom:calc(12px + env(safe-area-inset-bottom,0));
+  }
+}
+
+@keyframes p4h-peek-nudge{
+  0%, 100%{
+    transform:translateY(0);
+  }
+  45%{
+    transform:translateY(-16px);
+  }
+  60%{
+    transform:translateY(-16px);
   }
 }
 
@@ -835,9 +915,13 @@
     let loaded = false;
     let loadSucceeded = false;
     let endpointState = hasChatUrl ? 'pending' : 'fail'; // 'pending' | 'ok' | 'unknown' | 'fail'
+    let peekPromptTimer = null;
+    let peekPromptClearTimer = null;
     const PEEK_THRESHOLD = 120;
     const OPEN_THRESHOLD = 64;
     const CLOSE_PEEK_THRESHOLD = 28;
+    const HORIZONTAL_CLOSE_THRESHOLD = 120;
+    const SWIPE_MODE_LOCK_DISTANCE = 12;
 
     function setVh(){
       document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
@@ -876,6 +960,37 @@
       } else {
         $peekHint.textContent = 'Swipe up to show chat';
       }
+    }
+
+    function stopPeekPrompt(){
+      if(peekPromptTimer){
+        clearTimeout(peekPromptTimer);
+        peekPromptTimer = null;
+      }
+      if(peekPromptClearTimer){
+        clearTimeout(peekPromptClearTimer);
+        peekPromptClearTimer = null;
+      }
+      if($panel){
+        $panel.removeAttribute('data-nudge');
+      }
+    }
+
+    function queuePeekPrompt(){
+      if(!isPhone()) return;
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(reduceMotion) return;
+      stopPeekPrompt();
+      peekPromptTimer = window.setTimeout(()=>{
+        if(!$panel) return;
+        $panel.setAttribute('data-nudge', 'true');
+        peekPromptClearTimer = window.setTimeout(()=>{
+          if($panel){
+            $panel.removeAttribute('data-nudge');
+          }
+          peekPromptClearTimer = null;
+        }, 1800);
+      }, 320);
     }
 
     function updateMinimizeButton(){
@@ -969,12 +1084,15 @@
       $panel.removeAttribute('data-swiping');
       $panel.removeAttribute('data-closing');
       $panel.removeAttribute('aria-hidden');
+      stopPeekPrompt();
+      $panel.removeAttribute('data-reveal');
       if(!chatDisabled){
         hideFallback($fallback, $frame);
       } else {
         showFallback($fallback, $frame);
       }
       $panel.style.removeProperty('--p4h-shift');
+      $panel.style.removeProperty('--p4h-swipe-x');
       $panel.style.transform = '';
       $panel.style.opacity = '';
       updateMinimizeButton();
@@ -987,6 +1105,8 @@
       $panel.removeAttribute('data-open');
       $panel.setAttribute('data-peek', 'true');
       $panel.style.display = 'block';
+      stopPeekPrompt();
+      $panel.removeAttribute('data-reveal');
       if(isPhone()){
         $panel.style.top = '';
         $panel.style.left = '';
@@ -1015,10 +1135,14 @@
         }
       } else {
         hideFallback($fallback, $frame);
+        if($frame){
+          $frame.hidden = true;
+          $frame.setAttribute('aria-hidden', 'true');
+        }
       }
-      $frame.setAttribute('aria-hidden', 'true');
       $panel.style.transform = '';
       $panel.style.removeProperty('--p4h-shift');
+      $panel.style.removeProperty('--p4h-swipe-x');
       if($panel.contains(document.activeElement)){
         try { document.activeElement.blur(); } catch(e){}
       }
@@ -1026,6 +1150,7 @@
       updateMinimizeButton();
       updatePeekHint(true);
       hideLauncher();
+      queuePeekPrompt();
     }
 
     const isOpen = () => $panel.getAttribute('data-open') === 'true';
@@ -1037,21 +1162,31 @@
         setTimeout(()=>{ try { $frame.contentWindow?.focus(); } catch(e){} }, 150);
       }
     }
-    function closeChat(){
+    function closeChat(options = {}){
       const wasPeek = $panel.getAttribute('data-peek') === 'true';
       const wasOpen = isOpen();
       if(!wasPeek && !wasOpen) return;
 
       const duration = 220;
       $panel.setAttribute('data-closing', wasPeek ? 'peek' : 'open');
+      stopPeekPrompt();
+      $panel.removeAttribute('data-reveal');
+      const horizontalClose = options.horizontal === true;
+      const closeDirection = horizontalClose ? (options.direction >= 0 ? 1 : -1) : 0;
       void window.getComputedStyle($panel).transform;
 
       requestAnimationFrame(()=>{
         const rect = $panel.getBoundingClientRect();
-        const travel = wasPeek
-          ? Math.max(120, Math.ceil(window.innerHeight - rect.top + 40))
-          : 24;
-        $panel.style.transform = `translateY(${travel}px)`;
+        if(horizontalClose){
+          const horizontalTravel = Math.max(rect.width * 1.1, window.innerWidth * 0.75);
+          const travelX = closeDirection * horizontalTravel;
+          $panel.style.transform = `translate3d(${travelX}px, 0, 0)`;
+        } else {
+          const travelY = wasPeek
+            ? Math.max(120, Math.ceil(window.innerHeight - rect.top + 40))
+            : 24;
+          $panel.style.transform = `translateY(${travelY}px)`;
+        }
         $panel.style.opacity = '0';
       });
 
@@ -1061,6 +1196,7 @@
         $panel.removeAttribute('data-swiping');
         $panel.removeAttribute('data-closing');
         $panel.removeAttribute('aria-hidden');
+        $panel.removeAttribute('data-reveal');
         if(!chatDisabled){
           hideFallback($fallback, $frame);
         } else {
@@ -1070,6 +1206,7 @@
         $panel.style.opacity = '';
         $panel.style.transform = '';
         $panel.style.removeProperty('--p4h-shift');
+        $panel.style.removeProperty('--p4h-swipe-x');
         updateMinimizeButton();
         updatePeekHint(false);
         showLauncher();
@@ -1135,7 +1272,7 @@
       }
     });
 
-    let swiping=false, swipeStartY=0, deltaY=0, peekAtStart=false;
+    let swiping=false, swipeStartY=0, swipeStartX=0, deltaY=0, deltaX=0, peekAtStart=false, swipeMode=null, swipeShiftX=0;
     const handleTouchStart = (e)=>{
       if(!isPhone()) return;
       if(swiping) return;
@@ -1145,25 +1282,74 @@
       if(isPeekState && e.target.closest('.p4h-chat-controls')) return;
       if(!isPeekState && !startedOnHandle) return;
       swiping = true;
+      swipeMode = null;
       deltaY = 0;
+      deltaX = 0;
+      swipeShiftX = 0;
       swipeStartY = e.touches[0].clientY;
+      swipeStartX = e.touches[0].clientX;
       peekAtStart = isPeekState;
+      stopPeekPrompt();
       $panel.style.transition = 'none';
       $panel.style.willChange = 'transform';
       $panel.setAttribute('data-swiping', 'true');
       $panel.style.removeProperty('--p4h-shift');
+      $panel.style.removeProperty('--p4h-swipe-x');
     };
     const handleTouchMove = (e)=>{
       if(!swiping) return;
-      const currentY = e.touches[0].clientY;
-      deltaY = currentY - swipeStartY;
-      const rawHeight = $panel.clientHeight || window.innerHeight;
-      const limit = Math.min(rawHeight, window.innerHeight);
-      const translate = peekAtStart
-        ? Math.max(-limit, Math.min(0, deltaY))
-        : Math.max(0, Math.min(deltaY, limit));
+      const touch = e.touches[0];
+      deltaY = touch.clientY - swipeStartY;
+      deltaX = touch.clientX - swipeStartX;
+      const absX = Math.abs(deltaX);
+      const absY = Math.abs(deltaY);
+      if(swipeMode === null){
+        if(absX < SWIPE_MODE_LOCK_DISTANCE && absY < SWIPE_MODE_LOCK_DISTANCE){
+          return;
+        }
+        if(peekAtStart && absX > absY){
+          swipeMode = 'horizontal';
+        } else {
+          swipeMode = 'vertical';
+        }
+      }
       $panel.setAttribute('data-swiping', 'true');
-      $panel.style.setProperty('--p4h-shift', `${translate}px`);
+      if(swipeMode === 'horizontal'){
+        const rect = $panel.getBoundingClientRect();
+        const limit = Math.max(90, Math.min(window.innerWidth, rect.width) * 0.45);
+        swipeShiftX = Math.max(-limit, Math.min(deltaX, limit));
+        $panel.style.setProperty('--p4h-swipe-x', `${swipeShiftX}px`);
+        $panel.style.removeProperty('--p4h-shift');
+      } else {
+        const rawHeight = $panel.clientHeight || window.innerHeight;
+        const limit = peekAtStart ? window.innerHeight : Math.min(rawHeight, window.innerHeight);
+        const translate = peekAtStart
+          ? Math.max(-limit, Math.min(0, deltaY))
+          : Math.max(0, Math.min(deltaY, limit));
+        swipeShiftX = 0;
+        $panel.style.setProperty('--p4h-shift', `${translate}px`);
+        $panel.style.setProperty('--p4h-swipe-x', '0px');
+        if(peekAtStart){
+          const revealThreshold = -32;
+          if(translate < revealThreshold){
+            $panel.setAttribute('data-reveal', 'true');
+            if(!chatDisabled){
+              ensureLoaded();
+              hideFallback($fallback, $frame);
+            }
+            if($frame){
+              $frame.hidden = false;
+              $frame.removeAttribute('aria-hidden');
+            }
+          } else {
+            $panel.removeAttribute('data-reveal');
+            if($frame){
+              $frame.hidden = true;
+              $frame.setAttribute('aria-hidden', 'true');
+            }
+          }
+        }
+      }
     };
     const finishSwipe = ()=>{
       if(!swiping) return;
@@ -1171,26 +1357,49 @@
       $panel.style.transition = '';
       $panel.style.removeProperty('willChange');
       $panel.style.removeProperty('--p4h-shift');
+      $panel.style.removeProperty('--p4h-swipe-x');
       $panel.removeAttribute('data-swiping');
-      const isTap = Math.abs(deltaY) <= 10;
-      const shouldPeek = !peekAtStart && deltaY > PEEK_THRESHOLD;
-      const shouldOpen = peekAtStart && (deltaY < -OPEN_THRESHOLD || isTap);
-      const shouldClosePeek = peekAtStart && deltaY > CLOSE_PEEK_THRESHOLD;
-      if(shouldClosePeek){
-        closeChat();
-      } else if(shouldPeek){
-        setPeekState();
-      } else if(shouldOpen){
-        ensureLoaded();
-        setOpenState();
-      } else {
-        if(peekAtStart){
-          setPeekState();
+      const isTap = Math.abs(deltaY) <= 10 && Math.abs(deltaX) <= 10;
+      const horizontalDistance = Math.abs(swipeShiftX);
+      if(swipeMode === 'horizontal' && peekAtStart){
+        if(horizontalDistance > HORIZONTAL_CLOSE_THRESHOLD){
+          closeChat({ horizontal: true, direction: swipeShiftX });
         } else {
+          if(peekAtStart){
+            setPeekState();
+          } else {
+            setOpenState();
+          }
+        }
+      } else {
+        const shouldPeek = !peekAtStart && deltaY > PEEK_THRESHOLD;
+        const shouldOpen = peekAtStart && (deltaY < -OPEN_THRESHOLD || isTap);
+        const shouldClosePeek = peekAtStart && deltaY > CLOSE_PEEK_THRESHOLD;
+        if(shouldClosePeek){
+          closeChat();
+        } else if(shouldPeek){
+          setPeekState();
+        } else if(shouldOpen){
+          ensureLoaded();
           setOpenState();
+        } else {
+          if(peekAtStart){
+            setPeekState();
+          } else {
+            if(!isOpen()){
+              ensureLoaded();
+            }
+            setOpenState();
+          }
         }
       }
+      if(!peekAtStart){
+        $panel.removeAttribute('data-reveal');
+      }
       deltaY = 0;
+      deltaX = 0;
+      swipeShiftX = 0;
+      swipeMode = null;
     };
     [$handle, $panel].forEach((el)=>{
       if(!el) return;
